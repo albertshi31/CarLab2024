@@ -2,38 +2,36 @@
 import RPi.GPIO as GPIO
 import time
 
+# Use physical pin numbering
+GPIO.setmode(GPIO.BOARD)
+
 in1 = 31
 in2 = 33
 in3 = 35
 in4 = 37
 
-# careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
-step_sleep = 0.002
+# Adjust this value for smoother operation
+step_sleep = 0.01
 
-step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
+step_count = 4096  # Adjust based on motor specs
+direction = False  # True for clockwise, False for counter-clockwise
 
-direction = False # True for clockwise, False for counter-clockwise
+step_sequence = [[1, 0, 0, 1],
+                 [1, 0, 0, 0],
+                 [1, 1, 0, 0],
+                 [0, 1, 0, 0],
+                 [0, 1, 1, 0],
+                 [0, 0, 1, 0],
+                 [0, 0, 1, 1],
+                 [0, 0, 0, 1]]
 
-# defining stepper motor sequence (found in documentation http://www.4tronix.co.uk/arduino/Stepper-Motors.php)
-step_sequence = [[1,0,0,1],
-                 [1,0,0,0],
-                 [1,1,0,0],
-                 [0,1,0,0],
-                 [0,1,1,0],
-                 [0,0,1,0],
-                 [0,0,1,1],
-                 [0,0,0,1]]
+GPIO.setup(in1, GPIO.OUT)
+GPIO.setup(in2, GPIO.OUT)
+GPIO.setup(in3, GPIO.OUT)
+GPIO.setup(in4, GPIO.OUT)
 
-# setting up
-GPIO.setmode( GPIO.BCM )
-GPIO.setup( in1, GPIO.OUT )
-GPIO.setup( in2, GPIO.OUT )
-GPIO.setup( in3, GPIO.OUT )
-GPIO.setup( in4, GPIO.OUT )
-
-# initializing
-GPIO.output( in1, GPIO.LOW )
-GPIO.output( in2, GPIO.LOW )
+GPIO.output(in1, GPIO.LOW)
+GPIO.output(in2, GPIO.LOW)
 GPIO.output( in3, GPIO.LOW )
 GPIO.output( in4, GPIO.LOW )
 
