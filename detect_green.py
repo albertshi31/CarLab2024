@@ -20,30 +20,27 @@ class Blocks(Structure):
         ("m_age", c_uint)         # Age of the detected object
     ]
 
-# Create a BlockArray to hold up to 100 detected blocks.
-blocks = BlockArray(100)
+# Create a BlockArray to hold up to 5 detected blocks.
+blocks = BlockArray(5)
 
 # Initialize the frame counter.
-frame = 0
+#frame = 0
 
 # Set the signature value for detecting the green color.
 # The signature is configured on the Pixy2 through the PixyMon tool, 
 # and the green color usually gets signature 1, but verify this in PixyMon.
 green_signature = 2
 
-# Start tracking the green circle.
+# Start tracking the green laser
 while True:
-    count = pixy.ccc_get_blocks(100, blocks)  # Get up to 100 blocks (objects) from the Pixy2 camera.
+    count = pixy.ccc_get_blocks(5, blocks)  # Get up to 5 blocks (objects) from the Pixy2 camera.
     
     if count > 0:
-        # print(f"Frame {frame}: Detected {count} objects")
-        frame += 1
-        
         for index in range(count):
             # Get the signature and the coordinates of each block (object).
             block = blocks[index]
             if block.m_signature == green_signature:  # We are looking for green objects.
-                print(f"Frame {frame}: Green Object Detected!")
+                print(f"Laser detected!")
                 print(f"  Signature: {block.m_signature}")
                 print(f"  Position: ({block.m_x}, {block.m_y})")
                 print(f"  Width: {block.m_width}, Height: {block.m_height}")
@@ -55,5 +52,4 @@ while True:
                 # - Track its movement over time
                 # - Command servos to follow the circle, etc.
     else:
-        print(f"Frame {frame}: No green objects detected.")
-        frame += 1
+        print(f"No laser detected")
