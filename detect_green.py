@@ -29,7 +29,7 @@ frame = 0
 # Set the signature value for detecting the green color.
 # The signature is configured on the Pixy2 through the PixyMon tool, 
 # and the green color usually gets signature 1, but verify this in PixyMon.
-green_signature = 1
+green_signature = 2
 
 # Start tracking the green circle.
 while True:
