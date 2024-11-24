@@ -36,14 +36,14 @@ while True:
     count = pixy.ccc_get_blocks(100, blocks)  # Get up to 100 blocks (objects) from the Pixy2 camera.
     
     if count > 0:
-        print(f"Frame {frame}: Detected {count} objects")
+        # print(f"Frame {frame}: Detected {count} objects")
         frame += 1
         
         for index in range(count):
             # Get the signature and the coordinates of each block (object).
             block = blocks[index]
             if block.m_signature == green_signature:  # We are looking for green objects.
-                print(f"Green Object Detected!")
+                print(f"Frame {frame}: Green Object Detected!")
                 print(f"  Signature: {block.m_signature}")
                 print(f"  Position: ({block.m_x}, {block.m_y})")
                 print(f"  Width: {block.m_width}, Height: {block.m_height}")
