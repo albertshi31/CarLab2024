@@ -2,9 +2,6 @@
 import RPi.GPIO as GPIO
 import time
 
-# Use physical pin numbering
-GPIO.setmode(GPIO.BOARD)
-
 in1 = 6
 in2 = 13
 in3 = 19
@@ -25,6 +22,7 @@ step_sequence = [[1, 0, 0, 1],
                  [0, 0, 1, 1],
                  [0, 0, 0, 1]]
 
+GPIO.setmode( GPIO.BCM )
 GPIO.setup(in1, GPIO.OUT)
 GPIO.setup(in2, GPIO.OUT)
 GPIO.setup(in3, GPIO.OUT)
