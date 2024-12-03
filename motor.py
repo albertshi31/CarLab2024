@@ -5,10 +5,10 @@ import time
 # Use physical pin numbering
 GPIO.setmode(GPIO.BOARD)
 
-in1 = 31
-in2 = 33
-in3 = 35
-in4 = 37
+in1 = 6
+in2 = 13
+in3 = 19
+in4 = 26
 
 # Adjust this value for smoother operation
 step_sleep = 0.01
@@ -32,8 +32,8 @@ GPIO.setup(in4, GPIO.OUT)
 
 GPIO.output(in1, GPIO.LOW)
 GPIO.output(in2, GPIO.LOW)
-GPIO.output( in3, GPIO.LOW )
-GPIO.output( in4, GPIO.LOW )
+GPIO.output(in3, GPIO.LOW)
+GPIO.output(in4, GPIO.LOW)
 
 motor_pins = [in1,in2,in3,in4]
 motor_step_counter = 0 ;
