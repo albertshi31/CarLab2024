@@ -6,7 +6,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.OUT)
 
 # Create PWM instance with 50Hz frequency (standard for servo motors)
-pwm = GPIO.PWM(19, 50)
+pwm = GPIO.PWM(18, 50)
 
 # Start PWM with 0% duty cycle (initially off)
 pwm.start(0)
