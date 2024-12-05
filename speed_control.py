@@ -6,7 +6,7 @@ from pixy import *
 
 # Setup GPIO for Motor control (GPIO13)
 GPIO.setmode(GPIO.BCM)
-motor_pin = 18
+motor_pin = 19
 GPIO.setup(motor_pin, GPIO.OUT)
 pwm_speed = GPIO.PWM(motor_pin, 50)  # Motor speed PWM (use 50 for speed control)
 pwm_speed.start(0)  # Start with motor off (0% duty cycle)
