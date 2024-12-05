@@ -5,6 +5,7 @@ from ctypes import *
 from pixy import *
 
 # Setup GPIO for Motor control (GPIO13)
+GPIO.setmode(GPIO.BCM)
 motor_pin = 19
 GPIO.setup(motor_pin, GPIO.OUT)
 pwm_speed = GPIO.PWM(motor_pin, 100)  # Motor speed PWM (use 100Hz for speed control)
