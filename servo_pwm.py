@@ -5,7 +5,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 # Set the pin where the PWM signal will be sent (e.g., GPIO18)
-servo_pin = 18
+servo_pin = 19
 GPIO.setup(servo_pin, GPIO.OUT)
 
 # Create a PWM instance with a frequency of 50Hz (common frequency for servos)
