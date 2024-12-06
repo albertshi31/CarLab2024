@@ -8,7 +8,7 @@ from pixy import *
 motor_pin = 19
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin, GPIO.OUT)
-pwm_motor = GPIO.PWM(motor_pin, 100)  # Motor speed PWM (use 100Hz for speed control)
+pwm_motor = GPIO.PWM(motor_pin, 50)  # Motor speed PWM (use 100Hz for speed control)
 pwm_motor.start(0)  # Start with motor off (0% duty cycle)
 
 # Initialize Pixy2 and set it to the "color_connected_components" program.
