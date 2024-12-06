@@ -35,7 +35,7 @@ blocks = BlockArray(5)
 green_signature = 2
 
 # Function to map Y position to motor speed within the range of 20% to 35%
-def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=25, max_speed=40):
+def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=5, max_speed=20):
     # Map the Y position (range: min_y to max_y) to speed (range: min_speed to max_speed)
     return (y_position - min_y) * (max_speed - min_speed) / (max_y - min_y) + min_speed
 
