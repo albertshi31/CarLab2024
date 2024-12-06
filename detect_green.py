@@ -80,13 +80,13 @@ from pixy import *
 
 # Setup GPIO for Servo control (GPIO18)
 GPIO.setmode(GPIO.BCM)
-servo_pin = 18
+servo_pin = 19
 GPIO.setup(servo_pin, GPIO.OUT)
 pwm_servo = GPIO.PWM(servo_pin, 50)  # 50Hz frequency (standard for servos)
 pwm_servo.start(7.5)  # Initial position (centered at 90 degrees)
 
 # Setup GPIO for Motor control (GPIO13)
-motor_pin = 19
+motor_pin = 18
 GPIO.setup(motor_pin, GPIO.OUT)
 pwm_motor = GPIO.PWM(motor_pin, 100)  # Motor speed PWM (use 100Hz for speed control)
 pwm_motor.start(0)  # Start with motor off (0% duty cycle)
