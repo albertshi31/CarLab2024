@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-# Setup GPIO18 for PWM
+# Setup GPIO19 for PWM
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(19, GPIO.OUT)
 
@@ -11,11 +11,12 @@ pwm = GPIO.PWM(19, 50)
 # Start PWM with 0% duty cycle (initially off)
 pwm.start(0)
 
-# Move the servo to 90 degrees (7.5% duty cycle)
-pwm.ChangeDutyCycle(40)  # 7.5% corresponds to 90 degrees
-time.sleep(5)  # Wait for 1 second
-
-# Stop PWM and clean up
-pwm.stop()
-GPIO.cleanup()
-
+# Run indefinitely, keeping the servo at 40% duty cycle
+try:
+    while True:
+        pwm.ChangeDutyCycle(40)  # Adjust duty cycle to the desired position
+        time.sleep(0.1)  # Short delay to avoid excessive CPU usage
+except KeyboardInterrupt:
+    # Gracefully stop PWM and clean up if interrupted
+    pwm.stop()
+    GPIO.cleanup()
