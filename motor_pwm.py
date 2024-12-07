@@ -13,7 +13,7 @@ pwm.start(0)
 
 # Move the servo to 90 degrees (7.5% duty cycle)
 pwm.ChangeDutyCycle(40)  # 7.5% corresponds to 90 degrees
-time.sleep(1)  # Wait for 1 second
+time.sleep(5)  # Wait for 1 second
 
 # Stop PWM and clean up
 pwm.stop()
