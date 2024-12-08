@@ -160,6 +160,7 @@ while True:
                 
     else:
         print(f"No laser detected")
+        pwm_motor.ChangeDutyCycle(40)
 
     time.sleep(0.1)  # Small delay to avoid excessive CPU usage
 
