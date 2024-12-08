@@ -145,7 +145,8 @@ while True:
 
                 # Move the servo to the calculated angle
                 print(f"Moving servo to angle: {angle}")
-                pwm_servo.ChangeDutyCycle((angle / 18) + 2.5)  # Convert angle to PWM duty cycle (2.5%-12.5%)
+                pwm_servo.ChangeDutyCycle(angle)  # Convert angle to PWM duty cycle (2.5%-12.5%)
+                # pwm_servo.ChangeDutyCycle((angle / 18) + 2.5)
                 time.sleep(0.1)  # Small delay for smooth servo movement
 
                 # Map Y position of laser to motor speed
