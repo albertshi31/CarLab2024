@@ -120,9 +120,9 @@ def map_x_to_servo(x_position, min_x=0, max_x=319, min_angle=0, max_angle=180):
     return (x_position - min_x) * (max_angle - min_angle) / (max_x - min_x) + min_angle
 
 # Function to map Y position to motor speed
-def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=45, max_speed=60):
+def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=60, max_speed=80):
     # Map the Y position (range: min_y to max_y) to speed (range: min_speed to max_speed)
-    return (y_position - min_y) * (max_speed - min_speed) / (max_y - min_y) + min_speed
+    return (1 -((y_position - min_y) / (max_y - min_y))) * (max_speed - min_speed)+ min_speed
 
 # Start tracking the green laser
 while True:
