@@ -5,7 +5,7 @@ import threading
 # Pin definitions for four motors
 motors = {
     1: {'pins': [6, 13, 5, 26]},
-    2: {'pins': [17, 27, 22, 23]},
+    2: {'pins': [17, 9, 22, 23]},
     3: {'pins': [12, 16, 20, 21]},
     4: {'pins': [24, 25, 8, 7]}
 }
