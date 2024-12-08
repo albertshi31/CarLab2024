@@ -12,7 +12,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01
-step_count = 4096  # Adjust based on motor specs
+step_count = 4096  # Adjust based on- motor specs
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
