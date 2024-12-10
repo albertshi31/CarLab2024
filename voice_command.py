@@ -51,6 +51,7 @@ import speech_recognition as sr
 import subprocess
 import os
 import signal
+import detect_green.py as dg
 
 # Flag to track the laser detection status
 laser_detection_running = False
@@ -83,6 +84,8 @@ def recognize_command():
                 # Send a termination signal to the subprocess
                 laser_process.kill()
                 leg_process.kill()
+                dg.pwm_servo.stop()
+                dg.pwm_motor.stop()
                 laser_process = None  
                 leg_process = None 
                 laser_detection_running = False
