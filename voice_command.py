@@ -57,7 +57,7 @@ laser_detection_running = False
 laser_process = None  # To store the Popen object of the laser detection process
 
 def recognize_command():
-    global laser_detection_running, laser_process
+    global laser_detection_running, laser_process, leg_process
 
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
