@@ -58,7 +58,7 @@ laser_detection_running = False
 laser_process = None  # To store the Popen object of the laser detection process
 
 def recognize_command():
-    global laser_detection_running, laser_process, leg_process
+    global laser_detection_running, laser_process
 
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
@@ -74,7 +74,7 @@ def recognize_command():
             print("Starting laser detection.")
             # Run the laser detection script with sudo
             laser_process = subprocess.Popen(['sudo', 'python3', 'detect_green.py'])  # Start laser tracking
-            leg_process = subprocess.Popen(['python3', 'all_motors.py']) 
+            subprocess.Popen(['python3', 'all_motors.py']) 
             laser_detection_running = True
 
         elif 'stop' in command and laser_detection_running:
