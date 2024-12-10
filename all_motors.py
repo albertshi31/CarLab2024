@@ -33,10 +33,15 @@ for motor_id, motor_data in motors.items():
         GPIO.output(pin, GPIO.LOW)
 
 def cleanup():
+    """Ensure GPIO pins are set to LOW and clean up."""
     for motor_id, motor_data in motors.items():
         for pin in motor_data['pins']:
             GPIO.output(pin, GPIO.LOW)
     GPIO.cleanup()
+    print("GPIO cleanup completed.")
+
+# Global flag to stop threads
+stop_threads = False
 
 # Motor control function
 def drive_motor(motor_id):
@@ -44,31 +49,43 @@ def drive_motor(motor_id):
     motor_step_counter = 0
     direction = False  # False for counter-clockwise, True for clockwise
 
-    try:
-        while True:  # Run indefinitely
-            for i in range(step_count):
-                for pin in range(0, len(motor_pins)):
-                    GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
-                if direction:
-                    motor_step_counter = (motor_step_counter - 1) % 8
-                else:
-                    motor_step_counter = (motor_step_counter + 1) % 8
-                time.sleep(step_sleep)
-            # Reverse direction after completing step_count steps
-            direction = not direction
-    except KeyboardInterrupt:
-        cleanup()
-        exit(1)
+    while not stop_threads:  # Check stop flag to exit loop
+        for i in range(step_count):
+            if stop_threads:  # Exit loop if stop flag is set
+                return
+            for pin in range(0, len(motor_pins)):
+                GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
+            if direction:
+                motor_step_counter = (motor_step_counter - 1) % 8
+            else:
+                motor_step_counter = (motor_step_counter + 1) % 8
+            time.sleep(step_sleep)
+        # Reverse direction after completing step_count steps
+        direction = not direction
 
-# Start threads for each motor
+# Main execution
 threads = []
-for motor_id in motors.keys():
-    t = threading.Thread(target=drive_motor, args=(motor_id,))
-    threads.append(t)
-    t.start()
 
-# Wait for all threads to finish
-for t in threads:
-    t.join()
+try:
+    # Start threads for each motor
+    for motor_id in motors.keys():
+        t = threading.Thread(target=drive_motor, args=(motor_id,))
+        threads.append(t)
+        t.start()
 
-cleanup()
+    # Keep the main program running to allow threads to operate
+    while True:
+        time.sleep(0.1)  # Adjust as needed
+
+except KeyboardInterrupt:
+    print("\nKeyboardInterrupt detected, stopping motors...")
+    # Set global flag to stop threads
+    stop_threads = True
+
+finally:
+    # Wait for all threads to complete
+    for t in threads:
+        t.join()
+    # Cleanup GPIO
+    cleanup()
+    print("Program terminated safely.")
