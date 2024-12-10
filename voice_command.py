@@ -82,8 +82,8 @@ def recognize_command():
             # Kill the laser detection process
             if laser_process:
                 # Send a termination signal to the subprocess
-                leg_process.kill()
                 laser_process.kill()
+                laser_process = None
                 laser_detection_running = False
                 print("Laser detection process stopped.")
 
