@@ -24,7 +24,7 @@ def recognize_command():
             print("Starting laser detection.")
             # Run the laser detection script with sudo
             laser_process = subprocess.Popen(['sudo', 'python3', 'detect_green.py'])  # Start laser tracking
-            subprocess.Popen(['python3', 'all_motors.py']) 
+            # subprocess.Popen(['python3', 'all_motors.py']) 
             laser_detection_running = True
 
         elif 'stop' in command and laser_detection_running:
