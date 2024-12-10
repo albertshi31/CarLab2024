@@ -12,7 +12,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01 / 4
-step_count = 800  
+step_count = 800  # Steps for a full rotation
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
@@ -43,17 +43,17 @@ def cleanup():
 # Global flag to stop threads
 stop_threads = False
 
-# Function to set the motor to step 0 (initial position)
-def set_motor_to_step_0(motor_pins):
-    """Move the motor to step 0 in 1 step."""
-    motor_step_counter = 0  # Reset to step 0
-    
-    # Perform one step to set the motor to step 0
-    for pin in range(4):
-        GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
-    
-    # Just a short pause to ensure the step is completed
-    time.sleep(step_sleep)
+# Function to reset the motor to its home position (step 0)
+def reset_motor_to_position_0(motor_pins):
+    """Move the motor to position 0 (home position)."""
+    motor_step_counter = 0  # Start at step 0
+    # Move the motor in a direction to find home position (typically counter-clockwise)
+    # Here, we can use an arbitrary number of steps to return to home
+    for _ in range(step_count):  # Adjust this based on your setup if needed
+        for pin in range(4):
+            GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
+        motor_step_counter = (motor_step_counter + 1) % 8  # Move to next step
+        time.sleep(step_sleep)
 
 # Motor control function
 def drive_motor(motor_id):
@@ -61,8 +61,8 @@ def drive_motor(motor_id):
     motor_step_counter = 0
     direction = False  # False for counter-clockwise, True for clockwise
 
-    # Set the motor to step 0 before starting the main movement
-    set_motor_to_step_0(motor_pins)
+    # Reset the motor to home position (step 0 / position 0)
+    reset_motor_to_position_0(motor_pins)
 
     while not stop_threads:
         # Move in one direction (clockwise)
