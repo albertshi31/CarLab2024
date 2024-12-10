@@ -103,7 +103,7 @@ motors = {
 }
 
 # Adjust this value for smoother operation
-step_sleep = 0.01
+step_sleep = 0.01 / 4
 step_count = 1715  # 150 degrees
 
 # Step sequence
