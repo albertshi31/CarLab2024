@@ -104,7 +104,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01
-step_count = 2048  # Half of 4096 for 180-degree rotation
+step_count = 1715  # 150 degrees
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
@@ -141,20 +141,36 @@ def drive_motor(motor_id):
     motor_step_counter = 0
     direction = False  # False for counter-clockwise, True for clockwise
 
-    # Run only for the defined range of steps (2048 for 180 degrees)
-    for i in range(step_count):
-        if stop_threads:  # Exit loop if stop flag is set
-            return
-        for pin in range(0, len(motor_pins)):
-            GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
-        if direction:
-            motor_step_counter = (motor_step_counter - 1) % 8
-        else:
-            motor_step_counter = (motor_step_counter + 1) % 8
-        time.sleep(step_sleep)
+    while not stop_threads:
+        # Move in one direction (clockwise)
+        for i in range(step_count):
+            if stop_threads:
+                return
+            for pin in range(0, len(motor_pins)):
+                GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
+            if direction:
+                motor_step_counter = (motor_step_counter - 1) % 8
+            else:
+                motor_step_counter = (motor_step_counter + 1) % 8
+            time.sleep(step_sleep)
 
-    # After completing 180 degrees, stop the motor (no reversal of direction)
-    print(f"Motor {motor_id} completed 180 degrees.")
+        # Reverse direction (counter-clockwise)
+        direction = not direction
+
+        # Move in the opposite direction (counter-clockwise)
+        for i in range(step_count):
+            if stop_threads:
+                return
+            for pin in range(0, len(motor_pins)):
+                GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
+            if direction:
+                motor_step_counter = (motor_step_counter - 1) % 8
+            else:
+                motor_step_counter = (motor_step_counter + 1) % 8
+            time.sleep(step_sleep)
+
+        # Reverse direction after each back-and-forth motion
+        direction = not direction
 
 # Main execution
 threads = []
