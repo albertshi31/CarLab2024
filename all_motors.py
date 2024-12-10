@@ -12,7 +12,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01 / 4
-step_count = 800  
+step_count = 800  # Number of steps for a full rotation (360 degrees)
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
@@ -43,14 +43,11 @@ def cleanup():
 # Global flag to stop threads
 stop_threads = False
 
-# Function to move the motor by a specific number of steps
-def move_motor_to_position(motor_id, steps):
+# Function to move motor by a specified number of steps
+def move_motor_by_steps(motor_id, steps, direction=False):
     motor_pins = motors[motor_id]['pins']
     motor_step_counter = 0
-    direction = steps > 0  # True for clockwise, False for counter-clockwise
-    steps = abs(steps)  # Ensure steps are positive for the loop
-
-    for _ in range(steps):
+    for i in range(steps):
         if stop_threads:
             return
         for pin in range(0, len(motor_pins)):
@@ -63,13 +60,13 @@ def move_motor_to_position(motor_id, steps):
 
 # Motor control function
 def drive_motor(motor_id):
-    # Move motor to -100 degrees position
-    steps_for_100_deg = -100 * (step_count / 360)
-    move_motor_to_position(motor_id, steps_for_100_deg)
-
     motor_pins = motors[motor_id]['pins']
     motor_step_counter = 0
     direction = False  # False for counter-clockwise, True for clockwise
+
+    # Move motor to -100 degrees before starting normal movement
+    steps_for_negative_100 = int(((-100 / 360) * step_count))  # Steps for -100 degrees
+    move_motor_by_steps(motor_id, abs(steps_for_negative_100), direction)
 
     while not stop_threads:
         # Move in one direction (clockwise)
