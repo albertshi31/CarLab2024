@@ -12,7 +12,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01 / 4
-step_count = 800  # Number of steps for a full rotation (360 degrees)
+step_count = 800  
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
@@ -43,30 +43,11 @@ def cleanup():
 # Global flag to stop threads
 stop_threads = False
 
-# Function to move motor by a specified number of steps
-def move_motor_by_steps(motor_id, steps, direction=False):
-    motor_pins = motors[motor_id]['pins']
-    motor_step_counter = 0
-    for i in range(steps):
-        if stop_threads:
-            return
-        for pin in range(0, len(motor_pins)):
-            GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
-        if direction:
-            motor_step_counter = (motor_step_counter - 1) % 8
-        else:
-            motor_step_counter = (motor_step_counter + 1) % 8
-        time.sleep(step_sleep)
-
 # Motor control function
 def drive_motor(motor_id):
     motor_pins = motors[motor_id]['pins']
     motor_step_counter = 0
-    direction = False  # False for counter-clockwise, True for clockwise
-
-    # Move motor to -100 degrees before starting normal movement
-    steps_for_negative_100 = int(((-100 / 360) * step_count))  # Steps for -100 degrees
-    move_motor_by_steps(motor_id, abs(steps_for_negative_100), direction)
+    direction = True  # False for counter-clockwise, True for clockwise
 
     while not stop_threads:
         # Move in one direction (clockwise)
