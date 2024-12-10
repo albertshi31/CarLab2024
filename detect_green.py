@@ -121,7 +121,7 @@ def map_x_to_servo(x_position, min_x=0, max_x=319, min_angle=0, max_angle=180):
 
 # Function to map Y position to motor speed
 # def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=30, max_speed=45):
-def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=30, max_speed=45):
+def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=30, max_speed=37):
     # Map the Y position (range: min_y to max_y) to speed (range: min_speed to max_speed)
     return (1 -((y_position - min_y) / (max_y - min_y))) * (max_speed - min_speed)+ min_speed
 
