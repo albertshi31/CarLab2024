@@ -12,7 +12,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01 / 4
-step_count = 1250  # 150 degrees
+step_count = 1250  # 150 degrees for a full rotation
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
@@ -43,11 +43,15 @@ def cleanup():
 # Global flag to stop threads
 stop_threads = False
 
-# Function to set the initial position of the motor
-def set_initial_position(motor_pins, initial_position=0):
-    """Set the motor to a specific initial position."""
-    motor_step_counter = initial_position
-    for _ in range(motor_step_counter):
+# Function to set the initial position of the motor (75 degrees)
+def set_initial_position(motor_pins, initial_position=75):
+    """Set the motor to a specific initial position (75 degrees)."""
+    # Calculate steps for 75 degrees
+    steps_for_75_degrees = int((initial_position / 360) * step_count)
+    motor_step_counter = 0
+
+    # Move motor to the initial position
+    for _ in range(steps_for_75_degrees):
         for pin in range(0, len(motor_pins)):
             GPIO.output(motor_pins[pin], step_sequence[motor_step_counter][pin])
         motor_step_counter = (motor_step_counter + 1) % 8
@@ -59,8 +63,8 @@ def drive_motor(motor_id):
     motor_step_counter = 0
     direction = False  # False for counter-clockwise, True for clockwise
 
-    # Set the initial position of the motor to a known step (e.g., 0)
-    set_initial_position(motor_pins, initial_position=0)
+    # Set the initial position of the motor to 75 degrees
+    set_initial_position(motor_pins, initial_position=75)
 
     while not stop_threads:
         # Move in one direction (clockwise)
