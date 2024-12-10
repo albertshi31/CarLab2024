@@ -22,8 +22,9 @@ def recognize_command():
         if 'laser' in command and not laser_detection_running:
             print("Starting laser detection.")
             # Run the laser detection in a separate process
-            subprocess.Popen(['sudo', 'python', 'detect_green.py'])  # Start laser tracking
             laser_detection_running = True
+            subprocess.Popen(['sudo', 'python', 'detect_green.py'])  # Start laser tracking
+            
 
         elif 'stop' in command and laser_detection_running:
             print("Stopping laser detection.")
