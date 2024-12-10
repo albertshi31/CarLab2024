@@ -32,9 +32,9 @@ def recognize_command():
             # Kill the laser detection process
             if laser_process:
                 # Send a termination signal to the subprocess
-                # laser_process.kill()
-                # laser_process = None   
-                # laser_detection_running = False
+                laser_process.kill()
+                laser_process = None   
+                laser_detection_running = False
                 GPIO.setmode(GPIO.BCM)
                 servo_pin = 18
                 GPIO.setup(servo_pin, GPIO.OUT)
