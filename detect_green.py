@@ -88,7 +88,7 @@ pwm_servo.start(7.5)  # Initial position (centered at 90 degrees)
 # Setup GPIO for Motor control (GPIO13)
 motor_pin = 19
 GPIO.setup(motor_pin, GPIO.OUT)
-pwm_motor = GPIO.PWM(motor_pin, 100)  # Motor speed PWM (use 100Hz for speed control)
+pwm_motor = GPIO.PWM(motor_pin, 50)  # Motor speed PWM (use 100Hz for speed control)
 pwm_motor.start(0)  # Start with motor off (0% duty cycle)
 
 # Initialize Pixy2 and set it to the "color_connected_components" program.
@@ -120,7 +120,7 @@ def map_x_to_servo(x_position, min_x=0, max_x=319, min_angle=0, max_angle=180):
     return (x_position - min_x) * (max_angle - min_angle) / (max_x - min_x) + min_angle
 
 # Function to map Y position to motor speed
-def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=50, max_speed=65):
+def map_y_to_speed(y_position, min_y=0, max_y=239, min_speed=30, max_speed=45):
     # Map the Y position (range: min_y to max_y) to speed (range: min_speed to max_speed)
     return (1 -((y_position - min_y) / (max_y - min_y))) * (max_speed - min_speed)+ min_speed
 
