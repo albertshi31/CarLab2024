@@ -104,7 +104,7 @@ motors = {
 
 # Adjust this value for smoother operation
 step_sleep = 0.01 / 4
-step_count = 1715  # 150 degrees
+step_count = 1250  # 150 degrees
 
 # Step sequence
 step_sequence = [[1, 0, 0, 1],
