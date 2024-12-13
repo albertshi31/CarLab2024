@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import threading
 
+# Code adapted from https://ben.akrin.com/driving-a-28byj-48-stepper-motor-uln2003-driver-with-a-raspberry-pi/
+
 # Pin definitions for four motors
 motors = {
     1: {'pins': [6, 13, 5, 26]},
@@ -10,11 +12,13 @@ motors = {
     4: {'pins': [24, 25, 8, 7]}
 }
 
-# Adjust this value for smoother operation
+# The step_sleep determines how fast the stepper motors rotate
+# a lower number means that the motor "sleeps" for a shorter amount of time
 step_sleep = 0.01 / 4
+# This determines the rotation of the stepper motor based on # of steps for a motor to complete 1 revolution
 step_count = 800  
 
-# Step sequence
+# Step sequence for the motor
 step_sequence = [[1, 0, 0, 1],
                  [1, 0, 0, 0],
                  [1, 1, 0, 0],
@@ -27,11 +31,14 @@ step_sequence = [[1, 0, 0, 1],
 # GPIO setup
 GPIO.setmode(GPIO.BCM)
 
+# Sets up each motor & initializes GPIO pins as output pins, ensuring that GPIO pins are initially set to LOW (off) 
+# Makes sure no motors are inadvertently powered on at startup
 for motor_id, motor_data in motors.items():
     for pin in motor_data['pins']:
         GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, GPIO.LOW)
 
+# Cleanup function to ensure no residual charge or errors in future runs
 def cleanup():
     """Ensure GPIO pins are set to LOW and clean up."""
     for motor_id, motor_data in motors.items():
@@ -49,6 +56,7 @@ def drive_motor(motor_id):
     motor_step_counter = 0
     direction = True  # False for counter-clockwise, True for clockwise
 
+    # Make the stepper motors rotate
     while not stop_threads:
         # Move in one direction (clockwise)
         for i in range(step_count):
@@ -80,7 +88,7 @@ def drive_motor(motor_id):
         # Reverse direction after each back-and-forth motion
         direction = not direction
 
-# Main execution
+# Main execution— Multi-threading so that each motor can run
 threads = []
 
 try:
@@ -92,7 +100,7 @@ try:
 
     # Keep the main program running to allow threads to operate
     while True:
-        time.sleep(0.1)  # Adjust as needed
+        time.sleep(0.1) 
 
 except KeyboardInterrupt:
     print("\nKeyboardInterrupt detected, stopping motors...")
